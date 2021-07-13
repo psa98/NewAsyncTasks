@@ -71,7 +71,8 @@ public abstract class LiveAsyncTask<Params, Progress, Result> {
                     Result result=doInBackground(argument);
                     if (!isCanceled()){
                     updateOnResult(result);
-                    callOnCompletion(result);}
+                    callOnCompletion(result);
+                    }
                     status=Status.FINISHED;
                 }
             };
@@ -92,7 +93,9 @@ public abstract class LiveAsyncTask<Params, Progress, Result> {
     ;
 
 
-    /*Override that method for a final operations with result. Method called in background tread*/
+    /*Override that method for a final operation with result.
+    *Method will be called in background thread
+    */
     protected void callOnCompletion(Result result) {
 
     }
@@ -100,10 +103,10 @@ public abstract class LiveAsyncTask<Params, Progress, Result> {
 
     /**
      * Call that method in {@link #doInBackground(Object)} to publish progress on ui thread
-     *@param updateValue The parameters of the task.
+     *@param updateValue - the parameters of the task.
      */
     protected final void publishProgress(Progress updateValue){
-     if (updateValueLiveData!=null&&updateValueLiveData.hasObservers())
+     if (updateValueLiveData!=null&&updateValueLiveData.hasObservers()&&!isCanceled())
          updateValueLiveData.postValue(updateValue);
     }
 
@@ -118,9 +121,11 @@ public abstract class LiveAsyncTask<Params, Progress, Result> {
     }
 
     /**
-     * If you are calling cancel(boolean) on the task,the value of {@link #isCanceled()}
+     * If you  call cancel() on the task,the value of {@link #isCanceled()}
      * should be checked periodically in {@link #doInBackground(Object)} to end
-     *  the task as soon as possible.
+     *  the task as soon as possible. Cancelling task stops publishing
+     *  progress immediately, terminal methods {@link #callOnCompletion(Object)},
+     *  {@link #updateOnResult(Object)}    won't be invoked after that
      */
     public final void  cancel() {
         isCanceled=true;
