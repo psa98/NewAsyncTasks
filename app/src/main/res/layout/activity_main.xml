@@ -5,28 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    tools:ignore="HardcodedText"
     tools:context="c.ponom.new_asynctask_class.TestActivity">
 
 
     <ProgressBar
+        android:layout_margin="12dp"
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_height="30dp"
-
         android:indeterminate="false"
         android:indeterminateOnly="false"
          />
 
-    <Button
-        android:id="@+id/start_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start!"
-        android:onClick="startTask"
-        />
-
     <TextView
+        android:layout_margin="12dp"
         android:id="@+id/updated_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,8 +29,8 @@
 
 
 
-
     <TextView
+        android:layout_margin="12dp"
         android:id="@+id/result_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,19 +38,24 @@
         />
 
     <Button
+        android:layout_margin="12dp"
         android:id="@+id/cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancel!"
         android:onClick="cancelTask"
-        />
+        android:textAllCaps="false" />
+
 
     <Button
-        android:id="@+id/restart"
+        android:layout_margin="12dp"
+        android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Restart!"
-        android:onClick="restart"
-        />
+        android:text="Start!"
+        android:textAllCaps="false"
+        android:onClick="startTask"
+         />
+
 
 </LinearLayout>

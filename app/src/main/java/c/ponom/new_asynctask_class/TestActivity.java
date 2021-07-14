@@ -1,32 +1,22 @@
 package c.ponom.new_asynctask_class;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-
-
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.Calendar;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import c.ponom.myapplication.R;
-
-import static java.lang.Integer.valueOf;
-import static java.lang.Math.*;
+import static java.lang.Math.random;
 import static java.lang.Thread.sleep;
+
+@SuppressWarnings({"Convert2Lambda", "Anonymous2MethodRef"})
 @SuppressLint("DefaultLocale")
 public class TestActivity extends AppCompatActivity {
-
-
 
     private TestAsyncTask testAsyncTask;
     private ProgressBar progressBar;
@@ -47,11 +37,10 @@ public class TestActivity extends AppCompatActivity {
         progressBar.setMax(TEST_ROUNDS-1);
 
         progress.observe(this, new Observer<Integer>() {
-
             @Override
             public void onChanged(Integer progress) {
                 progressBar.setProgress(progress);
-                updateText.setText(String.format("priority: %d", progress));
+                updateText.setText(String.format("Completion progress: %d", progress+1));
             }
         });
         result.observe(this, new Observer<String>() {
@@ -71,16 +60,14 @@ public class TestActivity extends AppCompatActivity {
     }
 
     public void startTask(View view) {
-        testAsyncTask = new TestAsyncTask(" Test argument string",
-                progress,result,null);
+        testAsyncTask = new TestAsyncTask(" Test argument ",
+                progress,result,Thread.MAX_PRIORITY);
         testAsyncTask.execute();
     }
 
     public void cancelTask(View view) {
         testAsyncTask.cancel();
     }
-
-
 
     static class TestAsyncTask  extends LiveAsyncTask<String, Integer, String> {
         private static final String TAG = "Test AsyncTasks" ;
@@ -110,20 +97,8 @@ public class TestActivity extends AppCompatActivity {
                         +Thread.currentThread().getName() );
                 publishProgress(i);
             }
-            return "Argument= "+argument+". All done!";
+            return "Argument= "+argument+". Task completed!";
         }
     }
 
-
-    public void restart(View view) {
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        am.set(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + 3000,
-                // 3 seconds
-                PendingIntent.getActivity(this,
-                        0, getIntent(),
-                        PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_CANCEL_CURRENT));
-        Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
-    }
 }
