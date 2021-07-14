@@ -10,7 +10,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+
 import c.ponom.myapplication.R;
+
 import static java.lang.Math.random;
 import static java.lang.Thread.sleep;
 
@@ -92,9 +94,9 @@ public class TestActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.e(TAG, "doInBackground: priority: "
-                        +Thread.currentThread().getPriority() + " name: "
-                        +Thread.currentThread().getName() );
+                Log.e(TAG, "doInBackground: priority:  "
+                        + Thread.currentThread().getPriority() + " name: "
+                        + Thread.currentThread().getName());
                 publishProgress(i);
             }
             return "Argument= "+argument+". Task completed!";
