@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import c.ponom.myapplication.R;
+import c.ponom.new_asynk_task.R;
 
 import static java.lang.Math.random;
 import static java.lang.Thread.sleep;
@@ -22,10 +22,10 @@ public class TestActivity extends AppCompatActivity {
 
     private TestAsyncTask testAsyncTask;
     private ProgressBar progressBar;
-    private static final int TEST_ROUNDS=100;
-    private final MutableLiveData <Integer> progress = new MutableLiveData<>();
-    private final MutableLiveData <String> result = new MutableLiveData<>();
-    // todo - что  с многопоточностью  делать будем?
+    private static final int TEST_ROUNDS = 100;
+    private final MutableLiveData<Integer> progress = new MutableLiveData<>();
+    private final MutableLiveData<String> result = new MutableLiveData<>();
+    private static final String TAG = "Test AsyncTasks";
 
 
     @Override
@@ -58,6 +58,7 @@ public class TestActivity extends AppCompatActivity {
         super.onStop();
         if (testAsyncTask!=null&&testAsyncTask.getStatus()
                 == LiveAsyncTask.Status.RUNNING) testAsyncTask.cancel();
+        Log.i(TAG, "onStop: task cancelled ");
         progressBar.setProgress(0);
     }
 
@@ -72,7 +73,7 @@ public class TestActivity extends AppCompatActivity {
     }
 
     static class TestAsyncTask  extends LiveAsyncTask<String, Integer, String> {
-        private static final String TAG = "Test AsyncTasks" ;
+
         public TestAsyncTask(String argument,
                              MutableLiveData<Integer> updateValueLiveData,
                              MutableLiveData<String> resultValueLiveData,
@@ -94,7 +95,7 @@ public class TestActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.e(TAG, "doInBackground: priority:  "
+                Log.i(TAG, "doInBackground: priority:  "
                         + Thread.currentThread().getPriority() + " name: "
                         + Thread.currentThread().getName());
                 publishProgress(i);

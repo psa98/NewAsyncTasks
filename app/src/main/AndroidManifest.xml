@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="c.ponom.myapplication">
+    package="c.ponom.new_asynk_task">
 
     <application
         android:allowBackup="false"
