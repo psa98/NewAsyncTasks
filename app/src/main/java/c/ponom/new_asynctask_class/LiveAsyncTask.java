@@ -66,15 +66,14 @@ public abstract class LiveAsyncTask<Params, Progress, Result> {
 
     /**
      * Override this method to perform a computation on a background thread.
-     *
+     * <p>
      * This method will  run on a background thread, and can call publishProgress (Object) to publish
      * updates on the UI thread.
-     * Check for value of i{@link #isCanceled()} in code  if canceling of background task
+     * Check for value of {@link #isCanceled()} in code  if canceling of background task
      * can be necessary.
      *
      * @param argument The parameters of the task.
      * @return A result of task execution.
-     *
      * @see #callOnCompletion(Object)
      * @see #cancel()
      * @see #publishProgress
@@ -127,37 +126,36 @@ public abstract class LiveAsyncTask<Params, Progress, Result> {
     }
 
 
-    /**
-     * Call that method in {@link #doInBackground(Object)} to publish progress on ui thread
-     *@param updateValue - the parameters of the task.
-     */
-    protected final void publishProgress(Progress updateValue){
-        if (updateValueLiveData!=null&&updateValueLiveData.hasObservers()&&!isCanceled())
-            updateValueLiveData.postValue(updateValue);
+        /**
+         * Call that method in {@link #doInBackground(Object)} to publish progress on ui thread
+         *
+         * @param updateValue current progress level
+         */
+        protected final void publishProgress(Progress updateValue) {
+            if (updateValueLiveData != null && updateValueLiveData.hasObservers() && !isCanceled())
+                updateValueLiveData.postValue(updateValue);
+        }
+
+
+        /**
+         * Override that method for a final operation with result.
+         * Method will be called in background thread
+         */
+        protected void callOnCompletion(Result result) {
+
+        }
+
+        public Status getStatus() {
+            return status;
+        }
+
+        public boolean isCanceled() {
+            return isCanceled;
+        }
+
+        private void updateOnResult(Result result) {
+            if (resultValueLiveData != null && resultValueLiveData.hasObservers())
+                resultValueLiveData.postValue(result);
+        }
+
     }
-
-
-    /*Override that method for a final operation with result.
-    *Method will be called in background thread
-    */
-    protected void callOnCompletion(Result result) {
-
-    }
-
-
-
-    public boolean isCanceled() {
-        return isCanceled;
-    }
-
-    private  void updateOnResult(Result result) {
-        if (resultValueLiveData!=null&&resultValueLiveData.hasObservers())
-            resultValueLiveData.postValue(result);
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-
-}
