@@ -1,3 +1,4 @@
+Мой библиотечный класс - на замену легаси
 # NewAsyncTasks
 New class for use instead of deprecated Android AsyncTask based on Android LiveData
 
@@ -5,4 +6,4 @@ New class for use instead of deprecated Android AsyncTask based on Android LiveD
 выполнения длительного действия (progress bar)  переписать их на современный стэк с использованием Kotlin корутин, Flow не представляется
 возможным. Данный класс решает эту проблему за счет использования LiveData.  
 
-Написан с нуля, включая английскую документацию
+Написан с нуля, включая английскую документацию. Существенно упрощен сравнительно со стандартным.
