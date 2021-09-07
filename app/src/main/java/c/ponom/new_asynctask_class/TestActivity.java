@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer;
 import c.ponom.new_asynk_task.R;
 
 import static java.lang.Math.random;
+import static java.lang.Thread.MAX_PRIORITY;
 import static java.lang.Thread.sleep;
 
 @SuppressWarnings({"Convert2Lambda", "Anonymous2MethodRef"})
@@ -56,15 +57,15 @@ public class TestActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (testAsyncTask!=null&&testAsyncTask.getStatus()
-                == LiveAsyncTask.Status.RUNNING) testAsyncTask.cancel();
+        if (testAsyncTask != null && testAsyncTask.getStatus() == LiveAsyncTask.Status.RUNNING)
+            testAsyncTask.cancel();
         Log.i(TAG, "onStop: task cancelled ");
         progressBar.setProgress(0);
     }
 
     public void startTask(View view) {
         testAsyncTask = new TestAsyncTask(" Test argument ",
-                progress,result,Thread.MAX_PRIORITY);
+                progress, result, MAX_PRIORITY);
         testAsyncTask.execute();
     }
 
